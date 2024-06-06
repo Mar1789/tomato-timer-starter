@@ -4,9 +4,30 @@ let updateTimerDisplay = (minutes, seconds) => {
     const time = document.getElementById('time-left');
     time.textContent = `${minute + ":" + second}`;
 }
-let startTimer = (duration) =>{
-    let timer 
+let times;
+let Running = false;
+let startTimer = (duration) => {
+    minutes = Math.floor(duration/60);
+    seconds = duration - minutes  * 60;
+    if(Running === false){
+        Running = true;
+        times = setInterval(updateTimer, 1000);
+    }
 }
 
-let duration = 25;
-updateTimerDisplay(1, 2);
+let updateTimer = () => {
+    if(minutes === 0 && seconds === 0){
+        clearInterval(times);
+        Running = false;
+        return;
+    }
+    if(seconds === 0){
+        minutes--;
+        seconds = 59;  
+    } else{
+        seconds--;
+    }
+    updateTimerDisplay(minutes, seconds);
+}
+let duration = 500;
+startTimer(duration);
